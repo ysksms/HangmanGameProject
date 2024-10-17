@@ -19,3 +19,4 @@ This is a text-based Hangman game implemented in Python. The player tries to gue
 3. Make sure you are currently in the MiniProject_Python directory.
 4. Run the game using the command:
     `python hangman.py`
+5. Follow the on-screen instructions to play.
