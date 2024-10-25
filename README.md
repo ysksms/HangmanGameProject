@@ -17,7 +17,8 @@ This is a text-based Hangman game implemented in Python. The player tries to gue
 5. Follow the on-screen instructions to play.
 
 ## How to Play
-- The player guesses letters one at a time.
-- The game displays the current state of the word, with underscores for unguessed letters.
-- The player has a limited number of incorrect guesses (default is 6).
-- The game ends when the player guesses the word or runs out of incorrect guesses.
+- The player chooses a difficulty level: Easy, Medium, or Hard.
+- The player guesses one letter at a time.
+- The game shows the current state of the word, with underscores for letters not yet guessed.
+- The player has a limited number of incorrect guesses based on the chosen difficulty.
+- The game ends when the player guesses the word or uses all their incorrect guesses.

@@ -10,11 +10,22 @@ def load_words(file_path):
         return [word.strip() for word in file.readlines()]
 
 
-def choose_random_word(words):
+def choose_random_word(words, difficulty):
     """
     Select and return a random word from the list of words.
+    The difficulty level determines the length of the word.
     """
-    return random.choice(words)
+    if difficulty == "easy":
+        # Easy difficulty: choose shorter words (3-5 letters)
+        filtered_words = [word for word in words if 3 <= len(word) <= 5]
+    elif difficulty == "medium":
+        # Medium difficulty: choose medium-length words (6-8 letters)
+        filtered_words = [word for word in words if 6 <= len(word) <= 8]
+    else:
+        # Hard difficulty: choose longer words (9+ letters)
+        filtered_words = [word for word in words if len(word) >= 9]
+
+    return random.choice(filtered_words) if filtered_words else random.choice(words)
 
 
 def display_word_state(word, guessed_letters):
@@ -42,7 +53,7 @@ def process_guess(guess, guessed_letters, word):
     """
     if guess in word:
         guessed_letters.add(guess)
-        return "correct", f"---- Good job! '{guess}' is in the word. ****"
+        return "correct", f"---- Good job! '{guess}' is in the word. ----"
     else:
         guessed_letters.add(guess)
         return "incorrect", f"---- Sorry, '{guess}' is not in the word. ----"
@@ -61,13 +72,47 @@ def check_game_over(word, guessed_letters, remaining_attempts):
     return False
 
 
-def hangman_game(word):
+def get_difficulty():
+    """
+    Ask the player to choose a difficulty level by entering a number: 1 (easy), 2 (medium), or 3 (hard).
+    """
+    while True:
+        print("Choose a difficulty level by entering a number:")
+        print("1: Easy")
+        print("2: Medium")
+        print("3: Hard")
+        difficulty = input("Please enter 1, 2, or 3: ")
+
+        if difficulty == "1":
+            return "easy"
+        elif difficulty == "2":
+            return "medium"
+        elif difficulty == "3":
+            return "hard"
+        else:
+            print(
+                "---- Invalid choice. Please enter 1 for easy, 2 for medium, or 3 for hard. ---- "
+            )
+
+
+def set_remaining_attempts(difficulty):
+    """
+    Set the number of remaining attempts based on the chosen difficulty level.
+    """
+    if difficulty == "easy":
+        return 8  # More attempts for easier difficulty
+    elif difficulty == "medium":
+        return 6
+    else:
+        return 5  # Fewer attempts for harder difficulty
+
+
+def hangman_game(word, remaining_attempts):
     """
     Main game loop for the Hangman game.
     Manages the game flow, receiving the word to guess as input.
     """
     guessed_letters = set()
-    remaining_attempts = 6
 
     print("**** Welcome to Hangman! ****")
     print("Try to guess the word!")
